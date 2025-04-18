@@ -35,18 +35,27 @@ class AuthService {
     }
   }
 
-  static Future<void> recoverPassword(String email) async {
+  static Future<void> recoverPassword(String email, String cedula) async {
     final url = Uri.parse(ApiConstants.forgotPassword);
     final response = await http.post(
       url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': email}),
+      body: {'correo': email, 'cedula': cedula},
     );
 
     if (response.statusCode == 200) {
-      debugPrint('Correo de recuperación enviado');
+      final data = jsonDecode(response.body);
+
+      if (data['exito'] == true && data['datos'] != null) {
+        print("Correo de recuperación enviado");
+        print(data['datos']);
+        throw Exception('Error al recuerar contraseña: ${response.body}');
+      } else {
+        throw Exception(
+          'recuperación de contraseña fallida: ${data['mensaje']}',
+        );
+      }
     } else {
-      debugPrint('Error: ${response.body}');
+      throw Exception('Error al recuerar contraseña: ${response.body}');
     }
   }
 

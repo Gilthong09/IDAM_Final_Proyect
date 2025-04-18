@@ -40,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void goToRecoverPassword() {
     final recoverEmailController = TextEditingController();
+    final cedulaController = TextEditingController();
 
     showDialog(
       context: context,
@@ -69,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Introduce tu correo electrónico para recuperar tu contraseña.',
+                  'Introduce tu correo electrónico y tu cedula para recuperar tu contraseña.',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
@@ -84,6 +85,19 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                //-------------------------------------------------------------------------------------
+                const SizedBox(height: 20),
+                TextField(
+                  controller: cedulaController,
+                  decoration: InputDecoration(
+                    labelText: 'Cédula',
+                    prefixIcon: const Icon(Icons.tag_rounded),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                //-------------------------------------------------------------------------------------
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
@@ -91,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () async {
                       await AuthService.recoverPassword(
                         recoverEmailController.text.trim(),
+                        cedulaController.text.trim(),
                       );
                       Navigator.pop(context);
                     },

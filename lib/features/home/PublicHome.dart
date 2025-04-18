@@ -3,6 +3,9 @@ import 'package:final_proyect/shared/constants/app_colors.dart';
 import 'package:final_proyect/features/home_slider/slider_page.dart';
 import 'package:final_proyect/features/history/history_page.dart';
 import 'package:final_proyect/features/about/about_page.dart';
+import 'package:final_proyect/features/members/members_page.dart';
+import 'package:final_proyect/features/preventive_measures/measures_page.dart';
+import 'package:final_proyect/features/volunteers/volunteer_form_page.dart';
 
 class PublicHome extends StatefulWidget {
   const PublicHome({super.key});
@@ -109,17 +112,32 @@ class _PublicHomeState extends State<PublicHome> {
             ListTile(
               title: const Text('Medidas Preventivas'),
               leading: const Icon(Icons.shield),
-              onTap: () => _onItemTapped(7),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MedidasPage()),
+                );
+              },
             ),
             ListTile(
               title: const Text('Miembros'),
               leading: const Icon(Icons.people),
-              onTap: () => _onItemTapped(8),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MiembrosPage()),
+                );
+              },
             ),
             ListTile(
               title: const Text('Quiero ser voluntario'),
               leading: const Icon(Icons.volunteer_activism),
-              onTap: () => _onItemTapped(9),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VolunteerFormPage()),
+                );
+              },
             ),
             ListTile(
               title: const Text('Acerca de'),

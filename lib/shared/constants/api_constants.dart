@@ -24,7 +24,7 @@ class ApiConstants {
   static const String members = '$baseUrl/miembros.php';
 
   // Volunteers
-  static const String volunteerApplication = '$baseUrl/volunteers/apply';
+  static const String volunteerApplication = '$baseUrl/registro.php';
 
   // Reports
   static const String reportSituation = '$baseUrl/nueva_situacion.php';
