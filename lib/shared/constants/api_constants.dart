@@ -3,7 +3,7 @@ class ApiConstants {
   static const String baseUrl = 'https://adamix.net/defensa_civil/def/';
 
   // Endpoints organizados por módulo
-  static const String login = '$baseUrl/iniciar_sesion.php';
+  static const String loginApp = '$baseUrl/iniciar_sesion.php';
   static const String register = '$baseUrl/registro.php';
   static const String forgotPassword = '$baseUrl/recuperar_clave.php';
   //static const String changePassword = '$baseUrl/cambiar_clave.php';
