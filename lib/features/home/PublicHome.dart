@@ -6,6 +6,9 @@ import 'package:final_proyect/features/about/about_page.dart';
 import 'package:final_proyect/features/members/members_page.dart';
 import 'package:final_proyect/features/preventive_measures/measures_page.dart';
 import 'package:final_proyect/features/volunteers/volunteer_form_page.dart';
+import 'package:final_proyect/features/videos/videos_page.dart';
+import 'package:final_proyect/features/news/news_page.dart';
+import 'package:final_proyect/features/services/service_page.dart';
 
 class PublicHome extends StatefulWidget {
   const PublicHome({super.key});
@@ -20,9 +23,9 @@ class _PublicHomeState extends State<PublicHome> {
   static final List<Widget> _pages = <Widget>[
     Center(child: Text('Inicio (Slider)')),
     Center(child: Text('Historia')),
-    Center(child: Text('Servicios')),
-    Center(child: Text('Noticias')),
-    Center(child: Text('Videos')),
+    ServicePage(),
+    NewsPage(),
+    VideosPage(),
     Center(child: Text('Albergues')),
     Center(child: Text('Mapa')),
     Center(child: Text('Medidas Preventivas')),
