@@ -1,8 +1,6 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:final_proyect/features/authentication/login_page.dart';
-import 'package:final_proyect/shared/constants/app_colors.dart';
-import 'package:final_proyect/shared/widgets/splash_screen.dart';
 import 'package:final_proyect/features/home/PublicHome.dart';
 import 'package:final_proyect/features/home/private_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
