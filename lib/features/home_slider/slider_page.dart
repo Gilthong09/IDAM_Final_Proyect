@@ -7,12 +7,13 @@ class SliderPage extends StatefulWidget {
 
 class _SliderPageState extends State<SliderPage> {
   final List<String> imageUrls = [
+    'assets/images/Defensa civil logo.png',
     'assets/images/Algunos voluntarios.jpeg',
     'assets/images/defensa-civil-dominicana-aniversario.jpg',
     'assets/images/entrega-viaturas-defesa-civil.jpg',
     'assets/images/FB_IMG.jpg',
-    'assets/images/entrega-viaturas-defesa-civil.jpg',
-    'assets/images/entrega-viaturas-defesa-civil.jpg',
+    'assets/images/proteccion-civil.jpg',
+    //'assets/images/entrega-viaturas-defesa-civil.jpg',
   ];
 
   int currentPage = 0;
