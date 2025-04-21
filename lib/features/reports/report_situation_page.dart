@@ -75,87 +75,103 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Reportar Situación')),
-      body:
-          _loading
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _titleController,
-                        decoration: const InputDecoration(labelText: 'Título'),
-                        validator:
-                            (val) =>
-                                val == null || val.isEmpty
-                                    ? 'El título es requerido'
-                                    : null,
+      appBar: AppBar(
+        title: const Text('Reportar Situación'),
+        backgroundColor: Colors.deepOrange,
+        elevation: 8,
+      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    // Título
+                    TextFormField(
+                      controller: _titleController,
+                      decoration: const InputDecoration(
+                        labelText: 'Título',
+                        border: OutlineInputBorder(),
                       ),
-                      const SizedBox(height: 12),
-                      TextFormField(
-                        controller: _descriptionController,
-                        maxLines: 4,
-                        decoration: const InputDecoration(
-                          labelText: 'Descripción',
-                        ),
-                        validator:
-                            (val) =>
-                                val == null || val.isEmpty
-                                    ? 'La descripción es requerida'
-                                    : null,
+                      validator: (val) =>
+                          val == null || val.isEmpty ? 'El título es requerido' : null,
+                    ),
+                    const SizedBox(height: 12),
+                    
+                    // Descripción
+                    TextFormField(
+                      controller: _descriptionController,
+                      maxLines: 4,
+                      decoration: const InputDecoration(
+                        labelText: 'Descripción',
+                        border: OutlineInputBorder(),
                       ),
-                      const SizedBox(height: 12),
-                      TextFormField(
-                        controller: _latController,
-                        keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true,
-                        ),
-                        decoration: const InputDecoration(labelText: 'Latitud'),
-                        validator:
-                            (val) =>
-                                val == null || val.isEmpty
-                                    ? 'La latitud es requerida'
-                                    : null,
+                      validator: (val) =>
+                          val == null || val.isEmpty ? 'La descripción es requerida' : null,
+                    ),
+                    const SizedBox(height: 12),
+                    
+                    // Latitud
+                    TextFormField(
+                      controller: _latController,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      decoration: const InputDecoration(
+                        labelText: 'Latitud',
+                        border: OutlineInputBorder(),
                       ),
-                      const SizedBox(height: 12),
-                      TextFormField(
-                        controller: _lngController,
-                        keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true,
-                        ),
-                        decoration: const InputDecoration(
-                          labelText: 'Longitud',
-                        ),
-                        validator:
-                            (val) =>
-                                val == null || val.isEmpty
-                                    ? 'La longitud es requerida'
-                                    : null,
+                      validator: (val) =>
+                          val == null || val.isEmpty ? 'La latitud es requerida' : null,
+                    ),
+                    const SizedBox(height: 12),
+                    
+                    // Longitud
+                    TextFormField(
+                      controller: _lngController,
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      decoration: const InputDecoration(
+                        labelText: 'Longitud',
+                        border: OutlineInputBorder(),
                       ),
-                      const SizedBox(height: 12),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.image),
-                        label: const Text('Seleccionar Foto'),
-                        onPressed: _pickImage,
+                      validator: (val) =>
+                          val == null || val.isEmpty ? 'La longitud es requerida' : null,
+                    ),
+                    const SizedBox(height: 12),
+                    
+                    // Selección de imagen
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.image),
+                      label: const Text('Seleccionar Foto'),
+                      onPressed: _pickImage,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 50),
+                        primary: Colors.deepOrange,
+                        textStyle: TextStyle(fontSize: 16),
                       ),
-                      if (_selectedImage != null)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.file(_selectedImage!, height: 150),
-                        ),
-                      const SizedBox(height: 20),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.send),
-                        label: const Text('Enviar Reporte'),
-                        onPressed: _submit,
+                    ),
+                    if (_selectedImage != null)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.file(_selectedImage!, height: 150),
                       ),
-                    ],
-                  ),
+                    const SizedBox(height: 20),
+                    
+                    // Botón Enviar Reporte
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.send),
+                      label: const Text('Enviar Reporte'),
+                      onPressed: _submit,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 50),
+                        primary: Colors.green,
+                        textStyle: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+            ),
     );
   }
 }
