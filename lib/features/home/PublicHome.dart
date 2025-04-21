@@ -10,6 +10,7 @@ import 'package:final_proyect/features/videos/videos_page.dart';
 import 'package:final_proyect/features/news/news_page.dart';
 import 'package:final_proyect/features/services/service_page.dart';
 import 'package:final_proyect/features/shelters/shelters_page.dart';
+import 'package:final_proyect/features/shelters/shelters_map_page.dart';
 
 class PublicHome extends StatefulWidget {
   const PublicHome({super.key});
@@ -28,7 +29,7 @@ class _PublicHomeState extends State<PublicHome> {
     NewsPage(),
     VideosPage(),
     SheltersPage(),
-    Center(child: Text('Mapa (próximamente)')),
+    SheltersMapPage(),
     MedidasPage(),
     MiembrosPage(),
     VolunteerFormPage(),
