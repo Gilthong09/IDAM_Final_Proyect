@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'situation_model.dart';
 import 'situation_service.dart';
 
@@ -25,46 +27,51 @@ class _MySituationsPageState extends State<MySituationsPage> {
     });
   }
 
-  Widget _buildBase64Image(String base64String) {
+  Future<File?> _getLocalImageFile(String codigo) async {
     try {
-      String fixedBase64 = base64String.trim();
-
-      // Verificar si tiene prefijo, si no, agregarlo automáticamente
-      if (!fixedBase64.startsWith("data:image")) {
-        if (fixedBase64.startsWith("/9j")) {
-          fixedBase64 = "data:image/jpeg;base64,$fixedBase64";
-        } else if (fixedBase64.startsWith("iVBORw")) {
-          fixedBase64 = "data:image/png;base64,$fixedBase64";
-        } else {
-          // Por defecto usar jpeg
-          fixedBase64 = "data:image/jpeg;base64,$fixedBase64";
-        }
-      }
-
-      final encoded = fixedBase64.split(',').last;
-      final normalized = base64.normalize(encoded);
-      final bytes = base64Decode(normalized);
-
-      return Image.memory(
-        bytes,
-        height: 180,
-        width: double.infinity,
-        fit: BoxFit.cover,
-      );
+      final dir = await getApplicationDocumentsDirectory();
+      final path = '${dir.path}/imagen_$codigo.jpg';
+      final file = File(path);
+      return file.existsSync() ? file : null;
     } catch (e) {
-      return const Text("⚠️ Imagen inválida");
+      return null;
     }
+  }
+
+  Widget _buildImageWidget(Situation s) {
+    return FutureBuilder<File?>(
+      future: _getLocalImageFile(s.codigo),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
+        final file = snapshot.data;
+        if (file != null && file.existsSync()) {
+          return Image.file(
+            file,
+            height: 180,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          );
+        } else {
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Text("🖼️ Imagen no disponible"),
+          );
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Fondo general
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange, // Color personalizado
+        backgroundColor: Colors.deepOrange,
         elevation: 8,
         shadowColor: const Color.fromARGB(255, 248, 248, 247),
-        title: Text(
+        title: const Text(
           'Mis Situaciones',
           style: TextStyle(
             fontSize: 24,
@@ -74,7 +81,7 @@ class _MySituationsPageState extends State<MySituationsPage> {
           ),
         ),
         centerTitle: true,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(25)),
         ),
       ),
@@ -114,7 +121,7 @@ class _MySituationsPageState extends State<MySituationsPage> {
                     BoxShadow(
                       color: Colors.deepOrange.withOpacity(0.1),
                       blurRadius: 8,
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
@@ -127,45 +134,40 @@ class _MySituationsPageState extends State<MySituationsPage> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (_) => AlertDialog(
-                        scrollable: true,
-                        title: Text(
-                          s.titulo.isNotEmpty ? s.titulo : 'Sin título',
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (s.foto.isNotEmpty)
-                              _buildBase64Image(s.foto)
-                            else
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                child: Text("🖼️ Sin imagen disponible"),
+                      builder:
+                          (_) => AlertDialog(
+                            scrollable: true,
+                            title: Text(
+                              s.titulo.isNotEmpty ? s.titulo : 'Sin título',
+                            ),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildImageWidget(s),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "🆔 Código: ${s.codigo.isNotEmpty ? s.codigo : 'N/D'}",
+                                ),
+                                const SizedBox(height: 6),
+                                Text("🗓️ Fecha: $fechaMostrar"),
+                                const SizedBox(height: 6),
+                                const Text("📌 Estado: pendiente"),
+                                const SizedBox(height: 6),
+                                const Text("💬 Comentario: Sin comentario"),
+                                const Divider(height: 20),
+                                Text(
+                                  "📜 Descripción:\n${s.descripcion.isNotEmpty ? s.descripcion : 'Sin descripción'}",
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Cerrar'),
                               ),
-                            const SizedBox(height: 10),
-                            Text(
-                              "🆔 Código: ${s.codigo.isNotEmpty ? s.codigo : 'N/D'}",
-                            ),
-                            const SizedBox(height: 6),
-                            Text("🗓️ Fecha: $fechaMostrar"),
-                            const SizedBox(height: 6),
-                            const Text("📌 Estado: pendiente"),
-                            const SizedBox(height: 6),
-                            const Text("💬 Comentario: Sin comentario"),
-                            const Divider(height: 20),
-                            Text(
-                              "📜 Descripción:\n${s.descripcion.isNotEmpty ? s.descripcion : 'Sin descripción'}",
-                            ),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('Cerrar'),
+                            ],
                           ),
-                        ],
-                      ),
                     );
                   },
                 ),
