@@ -101,127 +101,145 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Center(
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    color: Colors.white.withOpacity(0.95),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextFormField(
-                              controller: _titleController,
-                              decoration: InputDecoration(
-                                labelText: 'Título',
-                                prefixIcon: const Icon(Icons.title),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+        child:
+            _loading
+                ? const Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Center(
+                    child: Card(
+                      elevation: 6,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      color: Colors.white.withOpacity(0.95),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextFormField(
+                                controller: _titleController,
+                                decoration: InputDecoration(
+                                  labelText: 'Título',
+                                  prefixIcon: const Icon(Icons.title),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                validator:
+                                    (val) =>
+                                        val == null || val.isEmpty
+                                            ? 'El título es requerido'
+                                            : null,
+                              ),
+                              const SizedBox(height: 15),
+                              TextFormField(
+                                controller: _descriptionController,
+                                maxLines: 4,
+                                decoration: InputDecoration(
+                                  labelText: 'Descripción',
+                                  prefixIcon: const Icon(Icons.description),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                validator:
+                                    (val) =>
+                                        val == null || val.isEmpty
+                                            ? 'La descripción es requerida'
+                                            : null,
+                              ),
+                              const SizedBox(height: 15),
+                              TextFormField(
+                                controller: _latController,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
+                                decoration: InputDecoration(
+                                  labelText: 'Latitud',
+                                  prefixIcon: const Icon(Icons.place),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                validator:
+                                    (val) =>
+                                        val == null || val.isEmpty
+                                            ? 'La latitud es requerida'
+                                            : null,
+                              ),
+                              const SizedBox(height: 15),
+                              TextFormField(
+                                controller: _lngController,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
+                                decoration: InputDecoration(
+                                  labelText: 'Longitud',
+                                  prefixIcon: const Icon(Icons.place_outlined),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                validator:
+                                    (val) =>
+                                        val == null || val.isEmpty
+                                            ? 'La longitud es requerida'
+                                            : null,
+                              ),
+                              const SizedBox(height: 20),
+                              ElevatedButton.icon(
+                                icon: const Icon(Icons.image),
+                                label: const Text('Seleccionar Foto'),
+                                onPressed: _pickImage,
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 50),
+                                  backgroundColor: Colors.deepOrangeAccent,
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                 ),
                               ),
-                              validator: (val) => val == null || val.isEmpty
-                                  ? 'El título es requerido'
-                                  : null,
-                            ),
-                            const SizedBox(height: 15),
-                            TextFormField(
-                              controller: _descriptionController,
-                              maxLines: 4,
-                              decoration: InputDecoration(
-                                labelText: 'Descripción',
-                                prefixIcon: const Icon(Icons.description),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                              if (_selectedImage != null)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.file(
+                                      _selectedImage!,
+                                      height: 160,
+                                    ),
+                                  ),
+                                ),
+                              const SizedBox(height: 10),
+                              ElevatedButton.icon(
+                                icon: const Icon(Icons.send),
+                                label: const Text('Enviar Reporte'),
+                                onPressed: _submit,
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 50),
+                                  backgroundColor: Colors.green,
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                 ),
                               ),
-                              validator: (val) => val == null || val.isEmpty
-                                  ? 'La descripción es requerida'
-                                  : null,
-                            ),
-                            const SizedBox(height: 15),
-                            TextFormField(
-                              controller: _latController,
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(decimal: true),
-                              decoration: InputDecoration(
-                                labelText: 'Latitud',
-                                prefixIcon: const Icon(Icons.place),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              validator: (val) => val == null || val.isEmpty
-                                  ? 'La latitud es requerida'
-                                  : null,
-                            ),
-                            const SizedBox(height: 15),
-                            TextFormField(
-                              controller: _lngController,
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(decimal: true),
-                              decoration: InputDecoration(
-                                labelText: 'Longitud',
-                                prefixIcon: const Icon(Icons.place_outlined),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              validator: (val) => val == null || val.isEmpty
-                                  ? 'La longitud es requerida'
-                                  : null,
-                            ),
-                            const SizedBox(height: 20),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.image),
-                              label: const Text('Seleccionar Foto'),
-                              onPressed: _pickImage,
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 50),
-                                backgroundColor: Colors.deepOrangeAccent,
-                                textStyle: const TextStyle(fontSize: 16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
-                            if (_selectedImage != null)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.file(_selectedImage!, height: 160),
-                                ),
-                              ),
-                            const SizedBox(height: 10),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.send),
-                              label: const Text('Enviar Reporte'),
-                              onPressed: _submit,
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 50),
-                                backgroundColor: Colors.green,
-                                textStyle: const TextStyle(fontSize: 16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
       ),
     );
   }

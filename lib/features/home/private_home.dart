@@ -7,7 +7,8 @@ class PrivateHome extends StatelessWidget {
   Future<void> logout(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
-    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    //Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    Navigator.pushReplacementNamed(context, '/');
   }
 
   @override

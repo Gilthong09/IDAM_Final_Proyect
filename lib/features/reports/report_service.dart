@@ -28,6 +28,8 @@ class ReportService {
       },
     );
 
+    print(response);
+
     final data = jsonDecode(response.body);
     return data;
   }

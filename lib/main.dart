@@ -93,6 +93,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const PublicHome(), // pantalla inicial
         '/login': (context) => const LoginPage(),
+        //'/publicHome': (context) => PublicHome(),
         '/home': (context) => const PrivateHome(), // <-- agrega esta línea
         '/private-news': (context) => const PrivateNewsPage(),
         '/report-situation': (context) => const ReportSituationPage(),
