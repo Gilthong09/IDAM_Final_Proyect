@@ -8,7 +8,10 @@ class ServicePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Servicios')),
+      appBar: AppBar(
+        title: const Text('Servicios'),
+        backgroundColor: Colors.orange.shade800,  // Cambié el color de la AppBar
+      ),
       body: FutureBuilder<List<Servicio>>(
         future: obtenerServicios(),
         builder: (context, snapshot) {
@@ -27,7 +30,7 @@ class ServicePage extends StatelessWidget {
               final s = servicios[index];
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 10),
-                elevation: 4,
+                elevation: 5,  // Mayor elevación para el card
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -62,10 +65,17 @@ class ServicePage extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.orange.shade800,
+                                  fontSize: 22,  // Aumento del tamaño de la fuente para los títulos
                                 ),
                           ),
                           const SizedBox(height: 8),
-                          Text(s.descripcion),
+                          Text(
+                            s.descripcion,
+                            style: TextStyle(
+                              fontSize: 16,  // Tamaño de la fuente de la descripción
+                              color: Colors.black87,
+                            ),
+                          ),
                         ],
                       ),
                     ),

@@ -117,7 +117,25 @@ class _MySituationsPageState extends State<MySituationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Mis Situaciones')),
+      backgroundColor: Colors.white, // Fondo general
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrange, // Color personalizado
+        elevation: 8,
+        shadowColor: const Color.fromARGB(255, 248, 248, 247),
+        title: Text(
+          'Mis Situaciones',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(25)),
+        ),
+      ),
       body: FutureBuilder<List<Situation>>(
         future: futureSituations,
         builder: (context, snapshot) {
@@ -145,6 +163,7 @@ class _MySituationsPageState extends State<MySituationsPage> {
                       ? s.fecha.split(' ').first
                       : 'Sin fecha';
 
+              /*<<<<<<< HEAD
               return ListTile(
                 leading: const Icon(Icons.event_note, color: Colors.red),
                 title: Text(s.titulo.isNotEmpty ? s.titulo : 'Sin título'),
@@ -178,28 +197,73 @@ class _MySituationsPageState extends State<MySituationsPage> {
                               const SizedBox(height: 10),
                               Text(
                                 "🆔 Código: ${s.codigo.isNotEmpty ? s.codigo : 'N/D'}",
-                              ),
-                              const SizedBox(height: 6),
-                              Text("🗓️ Fecha: $fechaMostrar"),
-                              const SizedBox(height: 6),
-                              const Text("📌 Estado: pendiente"),
-                              const SizedBox(height: 6),
-                              const Text("💬 Comentario: Sin comentario"),
-                              const Divider(height: 20),
-                              Text(
-                                "📜 Descripción:\n${s.descripcion.isNotEmpty ? s.descripcion : 'Sin descripción'}",
+=======*/
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.95),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.deepOrange.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(16),
+                  leading: const Icon(Icons.event_note, color: Colors.red),
+                  title: Text(s.titulo.isNotEmpty ? s.titulo : 'Sin título'),
+                  subtitle: Text('🗓️ $fechaMostrar - Estado: pendiente'),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder:
+                          (_) => AlertDialog(
+                            scrollable: true,
+                            title: Text(
+                              s.titulo.isNotEmpty ? s.titulo : 'Sin título',
+                            ),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (s.foto.isNotEmpty)
+                                  _buildBase64Image(s.foto)
+                                else
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 8),
+                                    child: Text("🖼️ Sin imagen disponible"),
+                                    //>>>>>>> 2a64ae84574ebd7919efede0bff8cdafc56f19a3
+                                  ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "🆔 Código: ${s.codigo.isNotEmpty ? s.codigo : 'N/D'}",
+                                ),
+                                const SizedBox(height: 6),
+                                Text("🗓️ Fecha: $fechaMostrar"),
+                                const SizedBox(height: 6),
+                                const Text("📌 Estado: pendiente"),
+                                const SizedBox(height: 6),
+                                const Text("💬 Comentario: Sin comentario"),
+                                const Divider(height: 20),
+                                Text(
+                                  "📜 Descripción:\n${s.descripcion.isNotEmpty ? s.descripcion : 'Sin descripción'}",
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Cerrar'),
                               ),
                             ],
                           ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('Cerrar'),
-                            ),
-                          ],
-                        ),
-                  );
-                },
+                    );
+                  },
+                ),
               );
             },
           );

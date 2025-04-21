@@ -14,6 +14,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final _newController = TextEditingController();
   bool _loading = false;
 
+  final Color primaryColor = Colors.deepOrange;
+  final Color backgroundGradientStart = const Color(0xFFFFFFFF);
+  final Color backgroundGradientEnd = const Color(0xFFFFCCBC);
+
   Future<void> _handleChangePassword() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _loading = true);
@@ -47,12 +51,37 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Cambiar Contraseña')),
-      body:
-          _loading
-              ? const Center(child: CircularProgressIndicator())
-              : Padding(
-                padding: const EdgeInsets.all(16),
+      backgroundColor: backgroundGradientStart,
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 8,
+        shadowColor: const Color.fromARGB(255, 248, 248, 247),
+        title: const Text(
+          'Cambiar Contraseña',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(25)),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [backgroundGradientStart, backgroundGradientEnd],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -63,9 +92,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         decoration: const InputDecoration(
                           labelText: 'Contraseña actual',
                         ),
-                        validator:
-                            (val) =>
-                                val == null || val.isEmpty ? 'Requerido' : null,
+                        validator: (val) =>
+                            val == null || val.isEmpty ? 'Requerido' : null,
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
@@ -90,6 +118,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   ),
                 ),
               ),
+      ),
     );
   }
 }

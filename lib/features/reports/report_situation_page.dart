@@ -75,7 +75,11 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Reportar Situación')),
+      appBar: AppBar(
+        title: const Text('Reportar Situación'),
+        backgroundColor: Colors.deepOrange,
+        elevation: 8,
+      ),
       body:
           _loading
               ? const Center(child: CircularProgressIndicator())
@@ -85,9 +89,13 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
                   key: _formKey,
                   child: Column(
                     children: [
+                      // Título
                       TextFormField(
                         controller: _titleController,
-                        decoration: const InputDecoration(labelText: 'Título'),
+                        decoration: const InputDecoration(
+                          labelText: 'Título',
+                          border: OutlineInputBorder(),
+                        ),
                         validator:
                             (val) =>
                                 val == null || val.isEmpty
@@ -95,11 +103,14 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
                                     : null,
                       ),
                       const SizedBox(height: 12),
+
+                      // Descripción
                       TextFormField(
                         controller: _descriptionController,
                         maxLines: 4,
                         decoration: const InputDecoration(
                           labelText: 'Descripción',
+                          border: OutlineInputBorder(),
                         ),
                         validator:
                             (val) =>
@@ -108,12 +119,17 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
                                     : null,
                       ),
                       const SizedBox(height: 12),
+
+                      // Latitud
                       TextFormField(
                         controller: _latController,
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
                         ),
-                        decoration: const InputDecoration(labelText: 'Latitud'),
+                        decoration: const InputDecoration(
+                          labelText: 'Latitud',
+                          border: OutlineInputBorder(),
+                        ),
                         validator:
                             (val) =>
                                 val == null || val.isEmpty
@@ -121,6 +137,8 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
                                     : null,
                       ),
                       const SizedBox(height: 12),
+
+                      // Longitud
                       TextFormField(
                         controller: _lngController,
                         keyboardType: const TextInputType.numberWithOptions(
@@ -128,6 +146,7 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
                         ),
                         decoration: const InputDecoration(
                           labelText: 'Longitud',
+                          border: OutlineInputBorder(),
                         ),
                         validator:
                             (val) =>
@@ -136,10 +155,17 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
                                     : null,
                       ),
                       const SizedBox(height: 12),
+
+                      // Selección de imagen
                       ElevatedButton.icon(
                         icon: const Icon(Icons.image),
                         label: const Text('Seleccionar Foto'),
                         onPressed: _pickImage,
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 50),
+                          backgroundColor: Colors.deepOrange,
+                          textStyle: TextStyle(fontSize: 16),
+                        ),
                       ),
                       if (_selectedImage != null)
                         Padding(
@@ -147,10 +173,17 @@ class _ReportSituationPageState extends State<ReportSituationPage> {
                           child: Image.file(_selectedImage!, height: 150),
                         ),
                       const SizedBox(height: 20),
+
+                      // Botón Enviar Reporte
                       ElevatedButton.icon(
                         icon: const Icon(Icons.send),
                         label: const Text('Enviar Reporte'),
                         onPressed: _submit,
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 50),
+                          backgroundColor: Colors.green,
+                          textStyle: TextStyle(fontSize: 16),
+                        ),
                       ),
                     ],
                   ),
