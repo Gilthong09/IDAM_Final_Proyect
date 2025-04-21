@@ -6,6 +6,11 @@ import 'package:final_proyect/shared/widgets/splash_screen.dart';
 import 'package:final_proyect/features/home/PublicHome.dart';
 import 'package:final_proyect/features/home/private_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:final_proyect/features/news/private_news_page.dart';
+import 'package:final_proyect/features/reports/report_situation_page.dart';
+import 'package:final_proyect/features/reports/my_situations_page.dart';
+import 'package:final_proyect/features/reports/MapSituationsPage.dart';
+import 'package:final_proyect/features/reports/change_password_page.dart';
 
 /*void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Necesario antes de usar async en main
@@ -91,6 +96,11 @@ class MyApp extends StatelessWidget {
         '/': (context) => const PublicHome(), // pantalla inicial
         '/login': (context) => const LoginPage(),
         '/home': (context) => const PrivateHome(), // <-- agrega esta línea
+        '/private-news': (context) => const PrivateNewsPage(),
+        '/report-situation': (context) => const ReportSituationPage(),
+        '/my-situations': (context) => const MySituationsPage(),
+        '/situation-map': (context) => const MapSituationsPage(),
+        '/change-password': (context) => const ChangePasswordPage(),
       },
     );
     /*return MaterialApp(

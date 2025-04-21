@@ -1,13 +1,13 @@
-// lib/features/news/news.dart
+// lib/features/news/news_item.dart
 
-class News {
+class NewsItem {
   final String id;
   final String fecha;
   final String titulo;
   final String contenido;
   final String foto;
 
-  News({
+  NewsItem({
     required this.id,
     required this.fecha,
     required this.titulo,
@@ -15,8 +15,8 @@ class News {
     required this.foto,
   });
 
-  factory News.fromJson(Map<String, dynamic> json) {
-    return News(
+  factory NewsItem.fromJson(Map<String, dynamic> json) {
+    return NewsItem(
       id: json['id'],
       fecha: json['fecha'],
       titulo: json['titulo'],

@@ -1,8 +1,5 @@
-// lib/features/auth/auth_service.dart
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../shared/constants/api_constants.dart';
 
@@ -22,16 +19,14 @@ class AuthService {
 
       if (data['exito'] == true && data['datos'] != null) {
         final token = data['datos']['token'];
-
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
-
         return true;
       } else {
-        throw Exception('Inicio de sesión fallido: ${data['mensaje']}');
+        return false; // No lanza excepción, retorna false
       }
     } else {
-      throw Exception('Error al iniciar sesión: ${response.body}');
+      throw Exception('Error del servidor: ${response.statusCode}');
     }
   }
 
@@ -44,18 +39,11 @@ class AuthService {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-
-      if (data['exito'] == true && data['datos'] != null) {
-        print("Correo de recuperación enviado");
-        print(data['datos']);
-        throw Exception('Error al recuerar contraseña: ${response.body}');
-      } else {
-        throw Exception(
-          'recuperación de contraseña fallida: ${data['mensaje']}',
-        );
+      if (data['exito'] != true) {
+        throw Exception(data['mensaje']);
       }
     } else {
-      throw Exception('Error al recuerar contraseña: ${response.body}');
+      throw Exception('Error al recuperar contraseña.');
     }
   }
 

@@ -10,7 +10,7 @@ class AboutPage extends StatelessWidget {
       'image': 'assets/about/Gilthong.jpg',
     },
     {
-      'name': 'Eimi Rosalia',
+      'name': 'Amy Rosalia',
       'phone': '+18098863715',
       'telegram': 'https://t.me/eimirosalia',
       'image': 'assets/about/Eimi.jpg',

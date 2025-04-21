@@ -6,6 +6,11 @@ import 'package:final_proyect/features/about/about_page.dart';
 import 'package:final_proyect/features/members/members_page.dart';
 import 'package:final_proyect/features/preventive_measures/measures_page.dart';
 import 'package:final_proyect/features/volunteers/volunteer_form_page.dart';
+import 'package:final_proyect/features/videos/videos_page.dart';
+import 'package:final_proyect/features/news/news_page.dart';
+import 'package:final_proyect/features/services/service_page.dart';
+import 'package:final_proyect/features/shelters/shelters_page.dart';
+import 'package:final_proyect/features/shelters/shelters_map_page.dart';
 
 class PublicHome extends StatefulWidget {
   const PublicHome({super.key});
@@ -17,24 +22,25 @@ class PublicHome extends StatefulWidget {
 class _PublicHomeState extends State<PublicHome> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _pages = <Widget>[
-    Center(child: Text('Inicio (Slider)')),
-    Center(child: Text('Historia')),
-    Center(child: Text('Servicios')),
-    Center(child: Text('Noticias')),
-    Center(child: Text('Videos')),
-    Center(child: Text('Albergues')),
-    Center(child: Text('Mapa')),
-    Center(child: Text('Medidas Preventivas')),
-    Center(child: Text('Miembros')),
-    Center(child: Text('Quiero ser voluntario')),
-    Center(child: Text('Acerca de')),
+  final List<Widget> _pages = [
+    SliderPage(),
+    HistoryPage(),
+    ServicePage(),
+    NewsPage(),
+    VideosPage(),
+    SheltersPage(),
+    SheltersMapPage(),
+    MedidasPage(),
+    MiembrosPage(),
+    VolunteerFormPage(),
+    AboutPage(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+    Navigator.pop(context); // Cierra el drawer
   }
 
   @override
@@ -66,23 +72,12 @@ class _PublicHomeState extends State<PublicHome> {
             ListTile(
               title: const Text('Inicio'),
               leading: const Icon(Icons.home),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SliderPage()),
-                );
-              },
+              onTap: () => _onItemTapped(0),
             ),
             ListTile(
               title: const Text('Historia'),
               leading: const Icon(Icons.history),
-              //onTap: () => HistoryPage(),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HistoryPage()),
-                );
-              },
+              onTap: () => _onItemTapped(1),
             ),
             ListTile(
               title: const Text('Servicios'),
@@ -112,43 +107,22 @@ class _PublicHomeState extends State<PublicHome> {
             ListTile(
               title: const Text('Medidas Preventivas'),
               leading: const Icon(Icons.shield),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MedidasPage()),
-                );
-              },
+              onTap: () => _onItemTapped(7),
             ),
             ListTile(
               title: const Text('Miembros'),
               leading: const Icon(Icons.people),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MiembrosPage()),
-                );
-              },
+              onTap: () => _onItemTapped(8),
             ),
             ListTile(
               title: const Text('Quiero ser voluntario'),
               leading: const Icon(Icons.volunteer_activism),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => VolunteerFormPage()),
-                );
-              },
+              onTap: () => _onItemTapped(9),
             ),
             ListTile(
               title: const Text('Acerca de'),
               leading: const Icon(Icons.info),
-              //onTap: () => AboutPage(),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AboutPage()),
-                );
-              },
+              onTap: () => _onItemTapped(10),
             ),
           ],
         ),
