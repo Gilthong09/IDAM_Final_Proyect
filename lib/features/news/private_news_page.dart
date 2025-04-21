@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'news_service.dart';
-import 'news_model.dart';
+import 'news_item_service.dart';
+import 'news_model_private.dart';
 
 class PrivateNewsPage extends StatefulWidget {
   const PrivateNewsPage({super.key});
@@ -15,7 +15,7 @@ class _PrivateNewsPageState extends State<PrivateNewsPage> {
   @override
   void initState() {
     super.initState();
-    futureNews = NewsService.fetchNews();
+    futureNews = NewsItemService.fetchNews();
   }
 
   @override
