@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'volunteer_service.dart';
 
 class VolunteerFormPage extends StatefulWidget {
@@ -20,6 +18,8 @@ class _VolunteerFormPageState extends State<VolunteerFormPage> {
   final TextEditingController passwordController = TextEditingController();
 
   bool _loading = false;
+
+  Color get primaryColor => Colors.deepOrange; // Color principal para los textos y botones
 
   void _submit() async {
     if (_formKey.currentState!.validate()) {
@@ -49,62 +49,110 @@ class _VolunteerFormPageState extends State<VolunteerFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Formulario de Voluntario')),
+      appBar: AppBar(
+        title: const Text(
+          'Formulario de Voluntario',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold, // Negrita
+            fontSize: 22,
+          ),
+        ),
+        backgroundColor: primaryColor.withOpacity(0.95),
+        elevation: 10,
+        shadowColor: Colors.deepOrangeAccent,
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(25)),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child:
-            _loading
-                ? const Center(child: CircularProgressIndicator())
-                : Form(
-                  key: _formKey,
-                  child: ListView(
-                    children: [
-                      TextFormField(
-                        controller: cedulaController,
-                        decoration: const InputDecoration(labelText: 'Cédula'),
-                        validator: _required,
-                      ),
-                      TextFormField(
-                        controller: nombreController,
-                        decoration: const InputDecoration(labelText: 'Nombre'),
-                        validator: _required,
-                      ),
-                      TextFormField(
-                        controller: apellidoController,
-                        decoration: const InputDecoration(
-                          labelText: 'Apellido',
+        child: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    _buildTextField(
+                      controller: cedulaController,
+                      label: 'Cédula',
+                    ),
+                    _buildTextField(
+                      controller: nombreController,
+                      label: 'Nombre',
+                    ),
+                    _buildTextField(
+                      controller: apellidoController,
+                      label: 'Apellido',
+                    ),
+                    _buildTextField(
+                      controller: correoController,
+                      label: 'Correo',
+                    ),
+                    _buildTextField(
+                      controller: telefonoController,
+                      label: 'Teléfono',
+                    ),
+                    _buildTextField(
+                      controller: passwordController,
+                      label: 'Contraseña',
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _submit,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor, // Usamos backgroundColor
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25), // Bordes más suaves
                         ),
-                        validator: _required,
                       ),
-                      TextFormField(
-                        controller: correoController,
-                        decoration: const InputDecoration(labelText: 'Correo'),
-                        validator: _required,
-                      ),
-                      TextFormField(
-                        controller: telefonoController,
-                        decoration: const InputDecoration(
-                          labelText: 'Teléfono',
+                      child: const Text(
+                        'Enviar solicitud',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white, // Texto blanco
+                          fontWeight: FontWeight.bold, // Negrita
                         ),
-                        validator: _required,
                       ),
-                      TextFormField(
-                        controller: passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Contraseña',
-                        ),
-                        obscureText: true,
-                        validator: _required,
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: _submit,
-                        child: const Text('Enviar solicitud'),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
       ),
+    );
+  }
+
+  TextFormField _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    bool obscureText = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(
+          color: primaryColor, // Color del texto del label
+          fontWeight: FontWeight.bold, // Hacer el label en negrita
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20), // Espaciado más amplio entre label y campo
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(color: primaryColor, width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: const BorderSide(color: Colors.grey, width: 1.5),
+        ),
+        filled: true,
+        fillColor: Colors.white,
+        errorStyle: const TextStyle(color: Colors.red),
+      ),
+      obscureText: obscureText,
+      validator: _required,
     );
   }
 
