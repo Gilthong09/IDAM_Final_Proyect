@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'situation_model.dart';
 import 'situation_service.dart';
+import 'dart:typed_data';
+import 'dart:developer' as developer;
 
 class MySituationsPage extends StatefulWidget {
   const MySituationsPage({super.key});
@@ -56,6 +58,62 @@ class _MySituationsPageState extends State<MySituationsPage> {
     }
   }
 
+  /*Widget _buildBase64Image(String base64String) {
+    try {
+      print("Base64 recibido (inicio): ${base64String.substring(0, 30)}...");
+      developer.log("Longitud del base64: ${base64String.length}");
+
+      String fixedBase64 = base64String.trim();
+
+      if (!fixedBase64.startsWith("data:image")) {
+        if (fixedBase64.startsWith("/9j")) {
+          fixedBase64 = "data:image/jpeg;base64,$fixedBase64";
+        } else if (fixedBase64.startsWith("iVBORw")) {
+          fixedBase64 = "data:image/png;base64,$fixedBase64";
+        } else {
+          fixedBase64 = "data:image/jpeg;base64,$fixedBase64";
+        }
+      }
+
+      final encoded = fixedBase64.split(',').last;
+
+      //  Imprimir base64 limpio antes de decodificar
+      print("Base64 limpio (inicio): ${encoded.substring(0, 30)}...");
+
+      //  Limpieza adicional
+      final sanitized = encoded.replaceAll(RegExp(r'[^A-Za-z0-9+/=]'), '');
+      final normalized = base64.normalize(sanitized);
+
+      Uint8List bytes = base64Decode(normalized);
+
+      if (bytes.isEmpty) {
+        return const Text("⚠️ La imagen está vacía");
+      }
+
+      print("Imagen decodificada con ${bytes.length} bytes.");
+
+      final image = Image.memory(
+        bytes,
+        height: 180,
+        width: 180,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          print("Error al cargar la imagen: $error");
+          return const Text("⚠️Error al mostrar la imagen");
+        },
+      );
+
+      return image;
+    } catch (e, stack) {
+      developer.log(
+        "Error al procesar imagen base64",
+        error: e,
+        stackTrace: stack,
+      );
+      return const Text("⚠️ Imagen inválida");
+    }
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +150,11 @@ class _MySituationsPageState extends State<MySituationsPage> {
                 title: Text(s.titulo.isNotEmpty ? s.titulo : 'Sin título'),
                 subtitle: Text('🗓️ $fechaMostrar - Estado: pendiente'),
                 trailing: const Icon(Icons.arrow_forward_ios),
+
                 onTap: () {
+                  // DEBUG prints
+                  //print("Base64 inicial: ${s.foto.substring(0, 30)}...");
+                  //print("Longitud del base64: ${s.foto.length}");
                   showDialog(
                     context: context,
                     builder:
@@ -104,6 +166,7 @@ class _MySituationsPageState extends State<MySituationsPage> {
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
+
                             children: [
                               if (s.foto.isNotEmpty)
                                 _buildBase64Image(s.foto)
