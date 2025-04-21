@@ -59,19 +59,11 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
-                  Icons.email_outlined,
-                  size: 50,
-                  color: Colors.blueGrey,
-                ),
+                const Icon(Icons.email_outlined, size: 50, color: Colors.orange),
                 const SizedBox(height: 10),
                 const Text(
                   'Recuperar contraseña',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orange),
                 ),
                 const SizedBox(height: 10),
                 const Text(
@@ -95,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: cedulaController,
                   decoration: InputDecoration(
                     labelText: 'Cédula',
-                    prefixIcon: const Icon(Icons.tag_rounded),
+                    prefixIcon: const Icon(Icons.badge_outlined),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -115,6 +107,8 @@ class _LoginPageState extends State<LoginPage> {
                     icon: const Icon(Icons.send),
                     label: const Text('Enviar'),
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -133,97 +127,103 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 215, 215, 215),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.shield_outlined,
-                size: 80,
-                color: Color.fromARGB(255, 134, 200, 233),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Bienvenido',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 134, 200, 233),
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Inicia sesión para continuar',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color.fromARGB(255, 255, 244, 244),
-                ),
-              ),
-              const SizedBox(height: 30),
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: loginController,
-                        decoration: const InputDecoration(
-                          labelText: 'Cédula',
-                          prefixIcon: Icon(Icons.person_outline),
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      TextField(
-                        controller: passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Contraseña',
-                          prefixIcon: Icon(Icons.lock_outline),
-                          border: OutlineInputBorder(),
-                        ),
-                        obscureText: true,
-                      ),
-                      const SizedBox(height: 20),
-                      if (isLoading)
-                        const CircularProgressIndicator()
-                      else
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: login,
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            child: const Text('Iniciar sesión'),
-                          ),
-                        ),
-                      TextButton(
-                        onPressed: goToRecoverPassword,
-                        child: const Text('¿Olvidaste tu contraseña?'),
-                      ),
-                      if (error != null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Text(
-                            error!,
-                            style: const TextStyle(color: Colors.red),
-                          ),
-                        ),
-                    ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFE0B2), Color(0xFFFFCC80)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.shield_outlined, size: 80, color: Colors.deepOrange),
+                const SizedBox(height: 20),
+                const Text(
+                  'Bienvenido',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepOrange,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 10),
+                const Text(
+                  'Inicia sesión para continuar',
+                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                ),
+                const SizedBox(height: 30),
+                Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: loginController,
+                          decoration: const InputDecoration(
+                            labelText: 'Cédula',
+                            prefixIcon: Icon(Icons.person_outline),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        TextField(
+                          controller: passwordController,
+                          decoration: const InputDecoration(
+                            labelText: 'Contraseña',
+                            prefixIcon: Icon(Icons.lock_outline),
+                            border: OutlineInputBorder(),
+                          ),
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 20),
+                        if (isLoading)
+                          const CircularProgressIndicator()
+                        else
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: login,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.deepOrange,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text('Iniciar sesión'),
+                            ),
+                          ),
+                        TextButton(
+                          onPressed: goToRecoverPassword,
+                          child: const Text(
+                            '¿Olvidaste tu contraseña?',
+                            style: TextStyle(color: Colors.deepOrange),
+                          ),
+                        ),
+                        if (error != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              error!,
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
