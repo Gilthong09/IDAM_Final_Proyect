@@ -20,20 +20,25 @@ class _LoginPageState extends State<LoginPage> {
       error = null;
     });
 
-    final success = await AuthService.login(
-      loginController.text.trim(),
-      passwordController.text.trim(),
-    );
+    try {
+      final success = await AuthService.login(
+        loginController.text.trim(),
+        passwordController.text.trim(),
+      );
 
-    setState(() {
-      isLoading = false;
-    });
+      setState(() => isLoading = false);
 
-    if (success) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
+      if (success) {
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        setState(() {
+          error = 'Credenciales incorrectas';
+        });
+      }
+    } catch (e) {
       setState(() {
-        error = 'Credenciales incorrectas';
+        isLoading = false;
+        error = e.toString().replaceAll('Exception: ', '');
       });
     }
   }
@@ -70,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Introduce tu correo electrónico y tu cedula para recuperar tu contraseña.',
+                  'Introduce tu correo electrónico y tu cédula para recuperar tu contraseña.',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
@@ -85,7 +90,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                //-------------------------------------------------------------------------------------
                 const SizedBox(height: 20),
                 TextField(
                   controller: cedulaController,
@@ -97,7 +101,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                //-------------------------------------------------------------------------------------
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
