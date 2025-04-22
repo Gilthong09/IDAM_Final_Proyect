@@ -1,18 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'video_model.dart';
 import 'video_service.dart';
 
-class VideosPage extends StatelessWidget {
-  final VideoService _videoService = VideoService();
+class VideosPage extends StatefulWidget {
+  @override
+  _VideosPageState createState() => _VideosPageState();
+}
 
-  Future<void> _openVideo(String videoId) async {
-    final url = 'https://www.youtube.com/watch?v=$videoId';
-    if (await canLaunch(url)) {
-      await launch(url);
+class _VideosPageState extends State<VideosPage> {
+  final VideoService _videoService = VideoService();
+  String? _playingVideoId;
+  YoutubePlayerController? _controller;
+
+  void _playVideo(String videoId) {
+    if (_playingVideoId == videoId) {
+      // Cierra el reproductor si ya estaba abierto
+      setState(() {
+        _playingVideoId = null;
+        _controller?.pause();
+        _controller?.dispose();
+        _controller = null;
+      });
     } else {
-      throw 'No se pudo abrir el video: $url';
+      // Reproduce un nuevo video
+      setState(() {
+        _playingVideoId = videoId;
+        _controller?.dispose();
+        _controller = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: YoutubePlayerFlags(
+            autoPlay: true,
+            mute: false,
+          ),
+        );
+      });
     }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 
   @override
@@ -34,27 +63,44 @@ class VideosPage extends StatelessWidget {
             itemCount: videos.length,
             itemBuilder: (context, index) {
               final video = videos[index];
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                elevation: 4,
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(12),
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      'https://img.youtube.com/vi/${video.link}/0.jpg',
-                      width: 100,
-                      fit: BoxFit.cover,
+              final videoId = video.link; // YA es el ID
+              final isPlaying = videoId == _playingVideoId;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    elevation: 4,
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(12),
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'https://img.youtube.com/vi/$videoId/0.jpg',
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      title: Text(
+                        video.titulo,
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange.shade800),
+                      ),
+                      subtitle: Text(video.fecha),
+                      onTap: () => _playVideo(videoId),
                     ),
                   ),
-                  title: Text(
-                    video.titulo,
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange.shade800),
-                  ),
-                  subtitle: Text(video.fecha),
-                  onTap: () => _openVideo(video.link),
-                ),
+                  if (isPlaying && _controller != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: YoutubePlayer(
+                        controller: _controller!,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: Colors.orange,
+                      ),
+                    ),
+                ],
               );
             },
           );

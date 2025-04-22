@@ -1,3 +1,5 @@
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
 class Video {
   final String id;
   final String fecha;
@@ -12,6 +14,8 @@ class Video {
     required this.descripcion,
     required this.link,
   });
+
+  String get videoId => YoutubePlayer.convertUrlToId(link) ?? link;
 
   factory Video.fromJson(Map<String, dynamic> json) {
     return Video(
