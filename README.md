@@ -45,19 +45,6 @@ assets/
 
 ---
 
-## 📸 Capturas de pantalla
-
-#### 🏠 Página de inicio
-<img src="assets/screenshots/home_slider.png" alt="Slider" width="300"/>
-
-#### 🔐 Recuperación de contraseña
-<img src="assets/screenshots/recover_password_dialog.png" alt="Recuperar Contraseña" width="300"/>
-
-#### 👥 Vista de desarrolladores
-<img src="assets/screenshots/about_page.png" alt="Acerca de" width="300"/>
-
----
-
 ## 👨‍💻 Desarrolladores
 
 | Nombre              | Teléfono       | Telegram                                |
